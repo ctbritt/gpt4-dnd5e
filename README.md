@@ -14,7 +14,7 @@ A simple incorporation of ChatGPT into foundry to assist in lookiup rules, stats
 # How to use it
 Simply preface your question with a `?` and ask. It will attempt to spit out D&D rules and information.
 
-You will also need an API key from OpenAi.com to use this. Sign up ![here](https://auth0.openai.com/u/signup/identifier?state=hKFo2SBhWUF4QkpDQlJMOG9yV3BscDdFVmpwaVpsX3Fab3hOQ6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIG5UY1lzdmFmWFFqbmVjWjBEX0NsU2ZKMGVYYzdDZlAxo2NpZNkgRFJpdnNubTJNdTQyVDNLT3BxZHR3QjNOWXZpSFl6d0Q) and get one ![here](https://platform.openai.com/).
+You will also need an API key from OpenAi.com to use this. Sign up [here](https://auth0.openai.com/u/signup/identifier?state=hKFo2SBhWUF4QkpDQlJMOG9yV3BscDdFVmpwaVpsX3Fab3hOQ6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIG5UY1lzdmFmWFFqbmVjWjBEX0NsU2ZKMGVYYzdDZlAxo2NpZNkgRFJpdnNubTJNdTQyVDNLT3BxZHR3QjNOWXZpSFl6d0Q) and get one [here](https://platform.openai.com/).
 ## Example
 `?Fireball`
 
