@@ -47,7 +47,7 @@ Hooks.on( 'chatMessage', async ( chatLog, message, chatData ) => {
 		// Create a new chat message with the answer
 		let chatMessage = await ChatMessage.create( {
 			user: game.user._id,
-			content: answer
+			content: `<span class="gpt-answer">${answer}</span>`
 		} );
 
 		// Prevent the original message from being displayed
