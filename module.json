@@ -1,7 +1,7 @@
 {
-  "id": "module",
-  "title": "New Module",
-  "description": "",
+  "id": "gpt4-dnd5e",
+  "title": "GPT-4 D&D Rules",
+  "description": "A FoundryVTT module that allows users to ask D&D rule questions using the GPT-4 API",
   "version": "#{VERSION}#",
   "library": "false",
   "manifestPlusVersion": "1.2.0",
@@ -12,9 +12,9 @@
   },
   "authors": [
     {
-      "name": "The League of Extraordinary FVTT Developers",
-      "url": "https://github.com/League-of-Foundry-Developers",
-      "discord": "discordID#0001"
+    "name": "Christopher Allbritton",
+    "url": "https://github.com/ctbritt",
+    "discord": "callbritton#5405"
     }
   ],
   "relationships": {
@@ -45,7 +45,7 @@
   "media": [
     {
       "type": "icon",
-      "url": "https://avatars2.githubusercontent.com/u/71292812?s=400&u=ccdb4eeb7abf551ca8f314e5a9bfd0479a4d3d41&v=4"
+    "url": "https://avatars.githubusercontent.com/u/4516034?v=4"
     }
   ]
 }
