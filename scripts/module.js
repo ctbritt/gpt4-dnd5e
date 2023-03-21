@@ -2,70 +2,64 @@
 import { ApiKeyForm } from './ApiKeyForm.js';
 
 Hooks.once('init', () => {
-  console.log('GPT-4 D&D Rules | Initializing GPT-4 D&D Rules module');
+	console.log('GPT-4 D&D Rules | Initializing GPT-4 D&D Rules module');
 
-  game.settings.registerMenu('gpt4-dnd5e', 'apiKeyForm', {
-	name: 'ChatGPT API Key',
-	// hint: 'Enter your ChatGPT API key from OpenAI.',
-	label: `Set ChatGPT API Key`,
-	icon: `fas fa-key`,
-	type: ApiKeyForm,
-	scope: 'world', // The API key setting will be available only to the GM
-	restricted: true,
-	// config: true,
-	// default: '',
-	// type: String
-  });
+	game.settings.registerMenu('gpt4-dnd5e', 'apiKeyForm', {
+		name: 'ChatGPT API Key',
+		// hint: 'Enter your ChatGPT API key from OpenAI.',
+		label: `Set ChatGPT API Key`,
+		icon: `fas fa-key`,
+		type: ApiKeyForm,
+		scope: 'world', // The API key setting will be available only to the GM
+		restricted: true,
+		// config: true,
+		// default: '',
+		// type: String
+	});
 });
-async function callGPT4Api( prompt ) {
-	const GPT4_API_KEY = game.settings.get('gpt4-dnd5e', 'apiKey');
+async function callGPT4Api(prompt) {
+		const GPT4_API_KEY = game.settings.get('gpt4-dnd5e', 'apiKey');
 
-	const response = await fetch( 'https://api.openai.com/v1/chat/completions', {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'Authorization': `Bearer ${GPT4_API_KEY}`
-		},
-		body: JSON.stringify( {
-			model: "gpt-3.5-turbo",
-			
-			messages=[
-        {"role": "system", "content": "You are a highly intelligent question answering bot'},
-        {"role": "user", "content": "What is human life expectancy in the United States?"}
-    ],
+		const response = await fetch('https://api.openai.com/v1/chat/completions', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${GPT4_API_KEY}`
+				},
+				body: JSON.stringify({
+						model: "gpt-3.5-turbo",
+						messages: [
+							{ 'role': 'system', 'content': 'Dungeons & Dragons 5e' },
+							{
+								'role': 'user',
+								content ': prompt }
+							],
+							max_tokens: 100,
+							n: 1,
+							stop: null,
+							temperature: 0.5
+						})
+				});
 
-			
-			
-			messages: [
-				{ 'role': 'system', 'content': 'Dungeons & Dragons 5e'},
-				     {'role': 'user', content': prompt }
-			],
-			max_tokens: 200,
-			n: 1,
-			stop: null,
-			temperature: 0.5
-		} )
-	} );
+			const data = await response.json();
+			return data.choices[0].message.content.trim();
+		}
 
-	const data = await response.json( );
-	return data.choices[ 0 ].message.content.trim( );
-}
+		Hooks.on('chatMessage', async (chatLog, message, chatData) => {
+			// Check if the message starts with a specific command, like "!gpt4"
+			if (message.startsWith('?')) {
+				const question = message.slice(1).trim();
 
-Hooks.on( 'chatMessage', async ( chatLog, message, chatData ) => {
-	// Check if the message starts with a specific command, like "!gpt4"
-	if ( message.startsWith( '?' ) ) {
-		const question = message.slice( 1 ).trim( );
+				const prompt = `I am a dungeon master running a game right now.I would like you to help me with running the game by coming up with ideas, and answering questions, and improving. Please keep responses as short as possible. ${question}`
+				const answer = await callGPT4Api(prompt);
 
-		const prompt = `I am a dungeon master running a game right now.I would like you to help me with running the game by coming up with ideas, and answering questions, and improving. Please keep responses as short as possible. ${question}`
-		const answer = await callGPT4Api( prompt );
+				// Create a new chat message with the answer
+				let chatMessage = await ChatMessage.create({
+					user: game.user._id,
+					content: `<span class="gpt-answer">${answer}</span>`
+				});
 
-		// Create a new chat message with the answer
-		let chatMessage = await ChatMessage.create( {
-			user: game.user._id,
-			content: `<span class="gpt-answer">${answer}</span>`
-		} );
-
-		// Prevent the original message from being displayed
-		return false;
-	}
-} );
+				// Prevent the original message from being displayed
+				return false;
+			}
+		});
