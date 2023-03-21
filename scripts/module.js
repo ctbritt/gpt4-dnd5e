@@ -10,7 +10,7 @@ Hooks.once('init', () => {
 	label: `Set ChatGPT API Key`,
 	icon: `fas fa-key`,
 	type: ApiKeyForm,
-	// scope: 'world', // The API key setting will be available only to the GM
+	scope: 'world', // The API key setting will be available only to the GM
 	restricted: true,
 	// config: true,
 	// default: '',
@@ -28,8 +28,17 @@ async function callGPT4Api( prompt ) {
 		},
 		body: JSON.stringify( {
 			model: "gpt-3.5-turbo",
+			
+			messages=[
+        {"role": "system", "content": "You are a highly intelligent question answering bot'},
+        {"role": "user", "content": "What is human life expectancy in the United States?"}
+    ],
+
+			
+			
 			messages: [
-				{ 'role': 'user', 'content': prompt }
+				{ 'role': 'system', 'content': 'Dungeons & Dragons 5e'},
+				     {'role': 'user', content': prompt }
 			],
 			max_tokens: 200,
 			n: 1,
@@ -46,9 +55,8 @@ Hooks.on( 'chatMessage', async ( chatLog, message, chatData ) => {
 	// Check if the message starts with a specific command, like "!gpt4"
 	if ( message.startsWith( '?' ) ) {
 		const question = message.slice( 1 ).trim( );
-		console.log( "question:", question );
 
-		const prompt = `You are a AI Dungeon Master for Dungeons and Dragons 5e. You can answer any questions regarding rules and other lore about D&D. If the question about a monster, format your answer in the form of a D&D 5e statblock. You should stick to the text of the various rulebooks and don't add anything. ${question}`
+		const prompt = `I am a dungeon master running a game right now.I would like you to help me with running the game by coming up with ideas, and answering questions, and improving. Please keep responses as short as possible. ${question}`
 		const answer = await callGPT4Api( prompt );
 
 		// Create a new chat message with the answer
