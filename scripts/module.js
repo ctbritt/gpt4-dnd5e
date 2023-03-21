@@ -24,7 +24,7 @@ async function callGPT4Api(prompt) {
       Authorization: `Bearer ${GPT4_API_KEY}`,
     },
     body: JSON.stringify({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4",
       messages: [
         { role: "system", content: "Dungeons & Dragons 5e" },
         {
