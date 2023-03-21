@@ -32,7 +32,7 @@ async function callGPT4Api(prompt) {
           content: prompt,
         },
       ],
-      max_tokens: 100,
+      max_tokens: 200,
       n: 1,
       stop: null,
       temperature: 0.5,
@@ -48,7 +48,7 @@ Hooks.on("chatMessage", async (chatLog, message, chatData) => {
   if (message.startsWith("?")) {
     const question = message.slice(1).trim();
 
-    const prompt = `I am a dungeon master running a game right now.I would like you to help me with running the game by coming up with ideas, and answering questions, and improving. Please keep responses as short as possible. ${question}`;
+    const prompt = `I am a dungeon master running a game right now.I would like you to help me with running the game by coming up with ideas, and answering questions, and improving. Please keep responses as short as possible. Stick to the rules as much as possible and format spells, monsters, and conditions in the proper format. ${question}`;
     const answer = await callGPT4Api(prompt);
 
     // Create a new chat message with the answer
