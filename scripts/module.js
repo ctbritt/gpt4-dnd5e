@@ -10,7 +10,7 @@ Hooks.once("init", () => {
     label: `Set ChatGPT API Key`,
     icon: `fas fa-key`,
     type: ApiKeyForm,
-    scope: "world", // The API key setting will be available only to the GM
+    // scope: "world", // The API key setting will be available only to the GM
     restricted: true,
     // config: true,
     // default: '',
@@ -27,7 +27,7 @@ async function callGPT4Api(prompt) {
       Authorization: `Bearer ${GPT4_API_KEY}`,
     },
     body: JSON.stringify({
-      model: "gpt-4",
+      model: "gpt-3.5-turbo",
       messages: [
         { role: "system", content: "Dungeons & Dragons 5e" },
         {
