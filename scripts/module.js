@@ -1,22 +1,19 @@
 // Add this import statement at the top of the file
-import { ApiKeyForm } from "./ApiKeyForm.js";
+// import { ApiKeyForm } from "./ApiKeyForm.js";
 
 Hooks.once("init", () => {
   console.log("GPT-4 D&D Rules | Initializing GPT-4 D&D Rules module");
 
-  game.settings.registerMenu("gpt4-dnd5e", "apiKeyForm", {
+  game.settings.register("gpt4-dnd5e", "apiKey", {
     name: "ChatGPT API Key",
-    // hint: 'Enter your ChatGPT API key from OpenAI.',
-    label: `Set ChatGPT API Key`,
-    icon: `fas fa-key`,
-    type: ApiKeyForm,
-    // scope: "world", // The API key setting will be available only to the GM
-    restricted: true,
-    // config: true,
-    // default: '',
-    // type: String
+    hint: "Enter your ChatGPT API key from OpenAI.",
+    scope: "world", // The API key setting will be available only to the GM
+    config: true,
+    default: "",
+    type: String,
   });
 });
+
 async function callGPT4Api(prompt) {
   const GPT4_API_KEY = game.settings.get("gpt4-dnd5e", "apiKey");
 
