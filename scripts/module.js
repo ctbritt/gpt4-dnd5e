@@ -11,10 +11,25 @@ Hooks.once("init", () => {
     config: true,
     default: "",
     type: String,
+  }
+  );
+  game.settings.register("gpt4-dnd5e", "apiVersion", {
+    name: "ChatGPT API Version",
+    hint: "Choose the version of the ChatGPT API to use.",
+    scope: "world",
+    config: true,
+    default: "gpt-3.5",
+    type: String,
+    choices: {
+      "gpt-4": "GPT-4",
+      "gpt-3.5": "GPT-3.5",
+    },
   });
+
 });
 
 async function callGPT4Api(prompt) {
+  const apiVersion = game.settings.get("gpt4-dnd5e", "apiVersion");
   const GPT4_API_KEY = game.settings.get("gpt4-dnd5e", "apiKey");
 
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
@@ -24,7 +39,7 @@ async function callGPT4Api(prompt) {
       Authorization: `Bearer ${GPT4_API_KEY}`,
     },
     body: JSON.stringify({
-      model: "gpt-4",
+      model: apiVersion,
       messages: [
         { role: "system", content: "Dungeons & Dragons 5e" },
         {
