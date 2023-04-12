@@ -21,4 +21,8 @@ You will also need an API key from OpenAi.com to use this. Sign up [here](https:
 >Fireball is a 3rd-level evocation spell that creates a burst of flame that spreads around corners. The spell has a range of 150 feet and affects all creatures within a 20-foot radius sphere centered on a point the caster chooses. Each creature in the area must make a Dexterity saving throw. On a failed save, a creature takes 8d6 fire damage, or half as much on a successful one. The spell ignites flammable objects in the area that aren't being worn or carried. The spell can be cast using a spell slot of 4th level or higher, increasing the damage by 1d6 for each level above 3rd.
 
 # To-do
-The settings panel is pretty bare bones. I'd like to hide the key once you've input it. I'd also like to style the answers a little so it looks nicer.
+Improve the settings panel to:
+- hide the API key from prying eyes
+- Select the game system you'd like to use and update the prompt to reflect that.
+- style the responses so they look nice and reflect the appropriate stat blocks. 
+- Open to suggestions on other improvements?
