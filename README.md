@@ -9,7 +9,7 @@
 
 
 # What this is
-A simple incorporation of ChatGPT into foundry to assist in lookiup rules, stats, etc.
+A simple incorporation of ChatGPT into foundry to assist in lookup rules, stats, etc.
 
 # How to use it
 Simply preface your question with a `?` and ask. It will attempt to spit out D&D rules and information.
