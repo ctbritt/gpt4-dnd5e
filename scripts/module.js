@@ -31,7 +31,7 @@ async function callGPT4Api(prompt) {
   const WAIT_TIME = 5000;
   const APIURL = "https://api.openai.com/v1/chat/completions";
   const requestBody = {
-    model: `${apiVersion}`,
+    model: apiVersion,
     messages: [
       {
         role: "system",
@@ -51,7 +51,7 @@ async function callGPT4Api(prompt) {
     body: JSON.stringify(requestBody),
   };
 
-  let response = null;
+  let response = {};
   let retries = 0;
 
   while (!(response && response.ok) && retries < 5) {
