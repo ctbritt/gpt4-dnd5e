@@ -26,3 +26,6 @@ You will also need an API key from OpenAi.com to use this. Sign up [here](https:
 - Custom game prompt as well
 - style the responses so they look nice and reflect the appropriate stat blocks. 
 - Open to suggestions on other improvements?
+
+# Special Thanks
+Thanks very much to brunocalado#1650 on the foundry discord for a) convincing me to update and b) for suggestion code modifications. 
