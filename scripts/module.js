@@ -93,3 +93,4 @@ Hooks.on("chatMessage", async (chatLog, message, chatData) => {
     return false;
   }
 });
+
