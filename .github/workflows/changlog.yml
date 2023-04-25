@@ -1,0 +1,2 @@
+name: Auto-generate CHANGELOG
+uses: BobAnkh/auto-generate-changelog@v1.2.4
