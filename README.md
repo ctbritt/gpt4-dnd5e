@@ -11,10 +11,22 @@
 # What this is
 A simple incorporation of ChatGPT into foundry to assist in lookup rules, stats, etc.
 
+## ⚠️ OpenAI API Keys Configuration ⚠️
+(thanks to @Significant-gravitas for this part of the Readme.)
+
+Obtain your OpenAI API key from: https://platform.openai.com/account/api-keys.
+
+To use OpenAI API key for Auto-GPT, you **NEED** to have billing set up (AKA paid account).
+
+You can set up paid account at https://platform.openai.com/account/billing/overview.
+
+![For OpenAI API key to work, set up paid account at OpenAI API > Billing](imgs/openai-api-key-billing-paid-account.png)
+
+#### **PLEASE ENSURE YOU HAVE DONE THIS STEP BEFORE PROCEEDING, OTHERWISE NOTHING WILL WORK!**
+
 # How to use it
 Simply preface your question with a `?` and ask. It will attempt to spit out D&D rules and information.
 
-You will also need an API key from OpenAi.com to use this. Sign up [here](https://auth0.openai.com/u/signup/identifier?state=hKFo2SBhWUF4QkpDQlJMOG9yV3BscDdFVmpwaVpsX3Fab3hOQ6Fur3VuaXZlcnNhbC1sb2dpbqN0aWTZIG5UY1lzdmFmWFFqbmVjWjBEX0NsU2ZKMGVYYzdDZlAxo2NpZNkgRFJpdnNubTJNdTQyVDNLT3BxZHR3QjNOWXZpSFl6d0Q) and get one [here](https://platform.openai.com/). You will need access to the GPT-4 api to use the GPT-4 model. Default is 3.5-turbo. 
 ## Example
 `?Fireball`
 
