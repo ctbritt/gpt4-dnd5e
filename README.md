@@ -12,7 +12,7 @@
 A simple incorporation of ChatGPT into foundry to assist in lookup rules, stats, etc.
 
 ## ⚠️ OpenAI API Keys Configuration ⚠️
-(thanks to @Significant-gravitas for this part of the Readme.)
+(thanks to [Significant-Gravitas](https://github.com/Significant-Gravitas) for this part of the Readme.)
 
 Obtain your OpenAI API key from: https://platform.openai.com/account/api-keys.
 
