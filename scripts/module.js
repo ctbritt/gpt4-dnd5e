@@ -1,21 +1,22 @@
 import { registerSettings } from './settings.js';
+
 const modulename = 'gpt4-dnd5e';
+
 Hooks.once('init', () => {
 	console.log('GPT-4 D&D Rules | Initializing GPT-4 D&D Rules module');
-
 	registerSettings();
 });
 
 async function callGPT4Api(prompt) {
 	const apiVersion = game.settings.get(modulename, 'apiVersion');
 	console.log('apiVersion:', apiVersion);
+
 	const minimumPermissions = game.settings.get(modulename, 'minimumPermission');
 	const userPermission = game.user.data.role;
-	if (game.user.data.role < minimumPermissions) {
+	if (userPermission < minimumPermissions) {
 		ui.notifications.info("You don't have permission to use this module.");
 		return false;
 	}
-
 	const GPT4_API_KEY = game.settings.get(modulename, 'apiKey');
 	const WAIT_TIME = 5000;
 	const APIURL = 'https://api.openai.com/v1/chat/completions';
@@ -25,7 +26,7 @@ async function callGPT4Api(prompt) {
 			{
 				role: 'system',
 				content:
-					'You are a dungeon master running a Dungeons & Dragons 5th Edition game right now. I would like you to help me with running the game by coming up with ideas, answering questions, and improvising. Please keep responses as short as possible. Stick to the rules as much as possible and format spells, monsters, and conditions in the proper format',
+					`You are a game master running a ${game.settings.get(modulename, 'gameSystem')} game right now. I would like you to help me with running the game by coming up with ideas, answering questions, and improvising. Please keep responses as short as possible. Stick to the rules as much as possible and format spells, monsters, and conditions in the proper format. If you do not know the answer, do not make things up; simply say you do not know.`
 			},
 			{ role: 'user', content: `${prompt}` },
 		],
@@ -40,47 +41,60 @@ async function callGPT4Api(prompt) {
 		body: JSON.stringify(requestBody),
 	};
 
-	let response = {};
-	let retries = 0;
+	const response = await retryFetch(APIURL, requestOptions);
 
-	while (!(response && response.ok) && retries < 5) {
-		console.log(`Waiting OpenAI Reply (${retries})`);
-		await new Promise((resolve) => setTimeout(resolve, WAIT_TIME));
-		response = await fetch(APIURL, requestOptions);
-		retries++;
-	}
-
-	console.log(response);
-	if (response && response.ok) {
+	if (response.ok) {
 		const data = await response.json();
 		console.log('data', data);
 		return data.choices[0].message.content.trim();
 	} else {
-		throw new Error('API request timed out');
+		throw new Error('API request failed');
 	}
 }
 
 Hooks.on('chatMessage', async (chatLog, message, chatData) => {
-	// Check if the message starts with a specific command, like "?"
-	const publicMessage = game.settings.get(modulename, 'publicMessages');
 	if (message.startsWith('?')) {
 		const question = message.slice(1).trim();
 
-		const prompt = `You are a dungeon master running a Dungeons & Dragons 5th Edition game right now. I would like you to help me with running the game by coming up with ideas, answering questions, and improvising. Please keep responses as short as possible. Stick to the rules as much as possible and format spells, monsters, and conditions in the proper format. ${question}`;
+		const prompt = `You are a game master running a ${game.settings.get(modulename, 'gameSystem')} game right now. I would like you to help me with running the game by coming up with ideas, answering questions, and improvising. Please keep responses as short as possible. Stick to the rules as much as possible and format spells, monsters, and conditions in the proper format. If you do not know the answer, do not make things up; simply say you do not know. ${question}`;
+
 		console.warn('================================');
 		console.log('prompt', prompt);
 		console.log('question', question);
-		const answer = await callGPT4Api(prompt);
 
-		if (answer != false) {
-			// Create a new chat message with the answer
-			let chatMessage = await ChatMessage.create({
-				user: game.user._id,
-				content: `<span class="gpt-answer">${answer}</span>`,
-				whisper: publicMessage ? [] : ChatMessage.getWhisperRecipients('GM'),
-			});
+		try {
+			const answer = await callGPT4Api(prompt);
+
+			if (answer != false) {
+				const publicMessage = game.settings.get(modulename, 'publicMessages');
+				const chatMessage = await ChatMessage.create({
+					user: game.user._id,
+					content: `<span class="gpt-answer">${answer}</span>`,
+					whisper: publicMessage ? [] : ChatMessage.getWhisperRecipients('GM'),
+				});
+			}
+		} catch (error) {
+			console.error(error);
+			ui.notifications.error('Failed to complete request');
 		}
-		// Prevent the original message from being displayed
+
 		return false;
 	}
 });
+
+async function retryFetch(url, options, retries = 5) {
+	let response;
+
+	while (retries > 0) {
+		console.log(`Waiting OpenAI Reply (${retries})`);
+		await new Promise((resolve) => setTimeout(resolve, 5000));
+		response = await fetch(url, options);
+		retries--;
+
+		if (response.ok) {
+			return response;
+		}
+	}
+
+	throw new Error('API request timed out');
+}
